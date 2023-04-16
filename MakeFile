@@ -1,0 +1,3 @@
+all:
+	gcc program1/src/main.c -o start_program1
+	gcc program2/src/main.c -o start_program2
