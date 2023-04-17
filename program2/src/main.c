@@ -34,11 +34,13 @@ int main(int argc, char *argv[]) {
     if(pipe_fd1 != -1 && pipe_fd2 != -1 && pipe_fd_out != NULL){
         do {
             int temp1 = 0, temp2 = 0, temp = 0;
-            res1 = read(pipe_fd1, &temp1, sizeof temp1);
-            res2 = read(pipe_fd2, &temp2, sizeof temp2);
+            res1 = read(pipe_fd1, &temp1, 1);
+            res2 = read(pipe_fd2, &temp2, 1);
+            if ((res1 > 0) && (res2 > 0)) {
             temp = temp1 ^ temp2;
-            fwrite(&temp, sizeof temp, 1, pipe_fd_out);
-        } while ((res1 > 0) && (res2 > 0));
+            fwrite(&temp, 1, 1, pipe_fd_out);
+            }
+        } while ((res1 > 0) || (res2 > 0));
         (void) close(pipe_fd1);
         (void) close(pipe_fd2);
         (void) fclose(pipe_fd_out);
